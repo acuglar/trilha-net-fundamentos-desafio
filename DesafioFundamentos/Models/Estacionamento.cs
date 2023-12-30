@@ -66,9 +66,13 @@ namespace DesafioFundamentos.Models
             // Verifica se há veículos no estacionamento
             if (veiculos.Any())
             {
-                Console.WriteLine("Os veículos estacionados são:");
-                // TODO: Realizar um laço de repetição, exibindo os veículos estacionados
-                // *IMPLEMENTE AQUI*
+                string pluralIndicator = veiculos.Count == 1 ? "" : "s";
+                Console.WriteLine($"Há {veiculos.Count} veículo{pluralIndicator} estacionado{pluralIndicator}.");
+                
+                foreach (string veiculo in veiculos)
+                {
+                    Console.WriteLine(veiculo);
+                }
             }
             else
             {
