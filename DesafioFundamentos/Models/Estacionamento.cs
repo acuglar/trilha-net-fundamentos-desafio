@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace DesafioFundamentos.Models
 {
     public class Estacionamento
@@ -14,9 +16,19 @@ namespace DesafioFundamentos.Models
 
         public void AdicionarVeiculo()
         {
-            // TODO: Pedir para o usuário digitar uma placa (ReadLine) e adicionar na lista "veiculos"
-            // *IMPLEMENTE AQUI*
             Console.WriteLine("Digite a placa do veículo para estacionar:");
+            string placa = Console.ReadLine();
+            string placaValida = VerificarPlaca(placa);
+
+            if (placaValida != null)
+            {
+                veiculos.Add(placaValida);
+                Console.WriteLine("Veículo estacionado com sucesso!");
+            }
+            else
+            {
+                Console.WriteLine("Placa inválida. O formato deve estar LLLNNNN ou LLL-NNNN");
+            }
         }
 
         public void RemoverVeiculo()
@@ -62,6 +74,23 @@ namespace DesafioFundamentos.Models
             {
                 Console.WriteLine("Não há veículos estacionados.");
             }
+        }
+
+        private string VerificarPlaca(string placa)
+        {
+            placa = placa.Replace(" ", "").ToUpper();
+
+            // Verifica se a placa esta no formato LLLNNNN ou LLL-NNNN
+            bool formatoValido = Regex.IsMatch(placa, @"^[A-Z]{3}\d{4}$|^[A-Z]{3}-\d{4}$");
+
+            if (formatoValido)
+            {
+                // Normaliza para o formato "LLL-NNNN"
+                placa = Regex.Replace(placa, @"^([A-Z]{3})(\d{4})$", "$1-$2");
+                return placa;
+            }
+
+            return null;
         }
     }
 }
